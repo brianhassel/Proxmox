@@ -13,7 +13,7 @@ function update_container() {
   echo -e "\n [Info] Updating $container : $name \n"
   os=$(pct config "$container" | awk '/^ostype/ {print $2}')
   case "$os" in
-  alpine) pct exec "$container" -- ash -c "apk update && apk upgrade" ;;
+  alpine) pct exec "$container" -- ash -c "apk update --allow-releaseinfo-change && apk upgrade" ;;
   archlinux) pct exec "$container" -- bash -c "pacman -Syyu --noconfirm" ;;
   fedora | rocky | centos | alma) pct exec "$container" -- bash -c "dnf -y update && dnf -y upgrade" ;;
   ubuntu | debian | devuan) pct exec "$container" -- bash -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" dist-upgrade -y; rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED" ;;
